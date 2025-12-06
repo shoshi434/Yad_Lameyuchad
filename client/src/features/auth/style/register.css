@@ -1,0 +1,431 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap');
+
+/* Apply font only to register page elements */
+.register-container * {
+  font-family: 'M PLUS Rounded 1c', sans-serif !important;
+}
+
+/* Container Styles */
+.register-container {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url(../../../../public/images/loginBackground.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  direction: rtl;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* Form Box Styles */
+.register-form-box {
+  width: 90%;
+  max-width: 900px;
+  padding: 32px 40px;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+/* Scrollbar Styles */
+.register-form-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.register-form-box::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.register-form-box::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+.register-form-box::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Tabs Styles */
+.register-tabs .MuiTabs-indicator {
+  background-color: #fff;
+  height: 3px;
+  border-radius: 3px;
+}
+
+.register-tabs .MuiTab-root {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: none;
+  min-height: 48px;
+}
+
+.register-tabs .MuiTab-root.Mui-selected {
+  color: #fff;
+  font-weight: 600;
+}
+
+.register-tabs .MuiTab-root:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Title Styles */
+.register-title {
+  margin-bottom: 16px;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Alert Styles */
+.register-alert {
+  margin-bottom: 16px;
+  background-color: #fdeded;
+  color: #5f2120;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.register-alert .MuiAlert-icon {
+  color: #ef5350;
+}
+
+/* Grid Styles */
+.register-grid-container {
+  justify-content: center;
+}
+
+/* Mobile-first approach - Force full width on all screen sizes */
+@media (max-width: 768px) {
+  .mobile-full-width {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  
+  .mobile-field {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-basis: 100% !important;
+    flex-grow: 1 !important;
+    margin: 0 !important;
+    padding: 8px 0 !important;
+  }
+  
+  .MuiGrid-container {
+    width: 100% !important;
+  }
+  
+  .MuiGrid-container > .MuiGrid-item {
+    max-width: 100% !important;
+    flex-basis: 100% !important;
+    width: 100% !important;
+    flex-grow: 1 !important;
+  }
+  
+  .MuiGrid-item {
+    max-width: 100% !important;
+    flex-basis: 100% !important;
+    width: 100% !important;
+    flex-grow: 1 !important;
+  }
+}
+
+/* TextField Styles */
+.register-textfield {
+  width: 100% !important;
+}
+
+.register-textfield .MuiInputBase-input {
+  color: white;
+  background-color: transparent;
+  text-align: right;
+  width: 100% !important;
+}
+
+.register-textfield .MuiInputLabel-root {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  right: 0;
+  left: auto;
+  transform-origin: top right;
+}
+
+.register-textfield .MuiInputLabel-root.Mui-focused {
+  color: white;
+}
+
+.register-textfield .MuiInput-underline:before {
+  border-bottom-color: rgba(255, 255, 255, 0.5);
+}
+
+.register-textfield .MuiInput-underline:hover:not(.Mui-disabled):before {
+  border-bottom-color: rgba(255, 255, 255, 0.8);
+}
+
+.register-textfield .MuiInput-underline:after {
+  border-bottom-color: white;
+}
+
+.register-textfield .MuiFormHelperText-root {
+  color: rgba(255, 255, 255, 0.95);
+  background-color: transparent;
+  text-align: right;
+  margin: 0;
+  margin-top: 4px;
+}
+
+/* Checkbox Styles */
+.register-checkbox-container {
+  display: flex;
+  justify-content: center;
+}
+
+.register-checkbox {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.register-checkbox.Mui-checked {
+  color: white;
+}
+
+.register-checkbox-label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.register-checkbox-label .MuiFormControlLabel-label {
+  font-size: 14px;
+}
+
+/* Button Styles */
+.register-button {
+  margin-top: 16px;
+  padding: 12px 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+}
+
+.register-button:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+  transform: translateY(-2px);
+}
+
+.register-button:disabled {
+  background: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ==================== RESPONSIVE STYLES ==================== */
+/* Mobile Responsive - Max Width 768px */
+@media (max-width: 768px) {
+  .register-container {
+    padding: 0 !important;
+    height: 100vh !important;
+    width: 100vw !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    overflow-y: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  .register-form-box {
+    width: calc(100% - 40px) !important;
+    max-width: 500px !important;
+    padding: 24px 20px 24px 20px !important;
+    margin: 20px auto 20px auto !important;
+    max-height: none !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Force Grid items to full width on mobile - STRONG OVERRIDE */
+  .MuiGrid-container > .MuiGrid-item {
+    max-width: 100% !important;
+    flex-basis: 100% !important;
+    width: 100% !important;
+  }
+  
+  .MuiGrid-item {
+    max-width: 100% !important;
+    flex-basis: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Force TextField to full width on mobile */
+  .register-textfield {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .register-textfield .MuiInputBase-root {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .register-grid-container .MuiGrid-item {
+    max-width: 100% !important;
+    flex-basis: 100% !important;
+    width: 100% !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+  }
+
+  .register-grid-container > div {
+    max-width: 100% !important;
+    flex-basis: 100% !important;
+  }
+
+  .register-tabs {
+    margin-bottom: 12px !important;
+  }
+
+  .register-tabs .MuiTab-root {
+    font-size: 14px !important;
+    min-width: 100px !important;
+    padding: 8px 12px !important;
+    min-height: 40px !important;
+  }
+
+  .register-tabs .MuiTabs-indicator {
+    height: 2px !important;
+  }
+
+  .register-title {
+    font-size: 18px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .register-subtitle {
+    font-size: 13px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .register-grid-container {
+    gap: 12px !important;
+  }
+
+  .register-textfield .MuiInputBase-input {
+    font-size: 15px !important;
+    padding: 6px 0 !important;
+  }
+
+  .register-textfield .MuiInputLabel-root {
+    font-size: 13px !important;
+  }
+
+  .register-textfield .MuiFormHelperText-root {
+    font-size: 11px !important;
+    margin-top: 2px !important;
+  }
+
+  .register-textfield textarea {
+    font-size: 14px !important;
+  }
+
+  .register-checkbox-label .MuiFormControlLabel-label {
+    font-size: 13px !important;
+  }
+
+  .register-button {
+    margin-top: 12px !important;
+    padding: 10px 0 !important;
+    font-size: 15px !important;
+    border-radius: 6px !important;
+  }
+
+  .register-alert {
+    margin-bottom: 12px !important;
+    font-size: 12px !important;
+    padding: 8px 10px !important;
+  }
+
+  .register-alert .MuiAlert-icon {
+    font-size: 16px !important;
+  }
+
+  .register-form-box::-webkit-scrollbar {
+    width: 6px !important;
+  }
+}
+
+/* Small Mobile Devices - Max Width 480px */
+@media (max-width: 480px) {
+  .register-container {
+    padding: 0 !important;
+  }
+
+  .register-form-box {
+    width: calc(100% - 48px) !important;
+    padding: 20px 16px !important;
+    margin: 16px auto !important;
+    max-height: calc(100vh - 32px) !important;
+    border-radius: 8px !important;
+  }
+
+  .register-tabs .MuiTab-root {
+    font-size: 13px !important;
+    min-width: 80px !important;
+    padding: 6px 8px !important;
+  }
+
+  .register-title {
+    font-size: 16px !important;
+  }
+
+  .register-subtitle {
+    font-size: 12px !important;
+  }
+
+  .register-textfield .MuiInputBase-input {
+    font-size: 14px !important;
+  }
+
+  .register-textfield .MuiInputLabel-root {
+    font-size: 12px !important;
+  }
+
+  .register-button {
+    font-size: 14px !important;
+    padding: 9px 0 !important;
+  }
+
+  .register-checkbox-label .MuiFormControlLabel-label {
+    font-size: 12px !important;
+  }
+}
+
+/* Extra Small Devices - Max Width 380px */
+@media (max-width: 380px) {
+  .register-form-box {
+    width: calc(100% - 40px) !important;
+    padding: 18px 14px !important;
+  }
+}
+
+/* Very Small Devices - Max Width 320px */
+@media (max-width: 320px) {
+  .register-form-box {
+    width: calc(100% - 32px) !important;
+    padding: 16px 12px !important;
+  }
+}

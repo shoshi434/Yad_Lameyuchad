@@ -1,0 +1,299 @@
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useLoginMutation, useForgotPasswordMutation, useGoogleLoginMutation } from "../../api/authApi";
+import { setToken } from "./authSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { GoogleLogin } from '@react-oauth/google';
+import { parseServerError } from "../../utils/errorHandler";
+import "./style/login.css";
+
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Paper,
+  Alert,
+  CircularProgress,
+  Tabs,
+  Tab,
+  Divider,
+} from "@mui/material";
+
+const loginSchema = z.object({
+  email: z.string().nonempty("יש להזין מייל"),
+  password: z.string().nonempty("יש להזין סיסמה"),
+});
+
+const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
+  const [forgotPassword, { isLoading: isForgotLoading }] = useForgotPasswordMutation();
+  const [googleLogin, { isLoading: isGoogleLoading }] = useGoogleLoginMutation();
+  const [serverError, setServerError] = useState("");
+  const [forgotPasswordMessage, setForgotPasswordMessage] = useState("");
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit = async (data) => {
+    setServerError("");
+    try {
+      const res = await login(data).unwrap();
+      dispatch(setToken({ token: res.token }));
+      
+      // פענוח הטוקן לבדיקת ה-role
+      const decodedToken = jwtDecode(res.token);
+      const userRole = decodedToken.role;
+      
+      // הפניה בהתאם לסוג המשתמש
+      if (userRole === "admin") {
+        navigate("/admin");
+      } else  {navigate("/user");}
+    } catch {
+      setServerError("מייל או סיסמה שגויים");
+    }
+  };
+
+  const handleToggle = (event, value) => {
+    if (value === 1) navigate("/register");
+  };
+
+  const handleForgotPassword = async () => {
+    const emailField = document.querySelector('input[name="email"]');
+    const email = emailField?.value;
+
+    if (!email) {
+      setServerError("אנא הזן כתובת מייל תחילה");
+      return;
+    }
+
+    setServerError("");
+    setForgotPasswordMessage("");
+    
+    try {
+      await forgotPassword({ email }).unwrap();
+      setForgotPasswordMessage("סיסמה חדשה נשלחה למייל שלך");
+      setShowForgotPassword(false);
+    } catch (error) {
+      const errorMessage = parseServerError(error, "שגיאה בשליחת סיסמה חדשה. אנא בדוק את כתובת המייל");
+      setServerError(errorMessage);
+    }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setServerError("");
+    try {
+      const res = await googleLogin({ credential: credentialResponse.credential }).unwrap();
+      dispatch(setToken({ token: res.token }));
+      
+      // פענוח הטוקן לבדיקת ה-role
+      const decodedToken = jwtDecode(res.token);
+      const userRole = decodedToken.role;
+      
+      // הפניה בהתאם לסוג המשתמש
+      if (userRole === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/user");
+      }
+    } catch (error) {
+      console.error('Google login error:', error);
+      const errorMessage = parseServerError(error, "❌ התחברות עם Google נכשלה. אנא וודא שאתה רשום במערכת.");
+      setServerError(errorMessage);
+    }
+  };
+
+  const handleGoogleError = () => {
+    setServerError("התחברות עם Google נכשלה");
+  };
+
+  return (
+    <Box className="login-container">
+      <Box className="login-form-box">
+        <Tabs
+          value={0}
+          onChange={handleToggle}
+          centered
+          className="login-tabs"
+          sx={{ 
+            mb: 3,
+            '& .MuiTab-root': {
+              color: '#000 !important',
+              fontFamily: "'M PLUS Rounded 1c', sans-serif",
+              fontWeight: 'bold'
+            },
+            '& .MuiTab-root.Mui-selected': {
+              color: '#000 !important'
+            },
+            '& .MuiTabs-indicator': {
+              backgroundColor: '#000'
+            }
+          }}
+        >
+          <Tab label="התחברות" />
+          <Tab label="הרשמה" />
+        </Tabs>
+
+        {serverError && (
+          <Alert severity="error" className="login-alert">
+            {serverError}
+          </Alert>
+        )}
+
+        {forgotPasswordMessage && (
+          <Alert severity="success" className="login-alert">
+            {forgotPasswordMessage}
+          </Alert>
+        )}
+
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} className="login-form" sx={{ mt: 2 }}>
+          <TextField
+            variant="standard"
+            label="אימייל"
+            {...register("email")}
+            error={!!errors.email}
+            helperText={errors.email?.message}
+            fullWidth
+            className="login-textfield"
+            InputLabelProps={{
+              shrink: true,
+              sx: {
+                right: 0,
+                left: 'auto',
+                transformOrigin: 'top right',
+                color: '#000 !important',
+                fontFamily: "'M PLUS Rounded 1c', sans-serif",
+                '&.Mui-focused': {
+                  color: '#000 !important'
+                }
+              }
+            }}
+            sx={{
+              '& .MuiInputBase-input': {
+                color: '#000',
+                fontFamily: "'M PLUS Rounded 1c', sans-serif"
+              },
+              '& .MuiInput-underline:before': {
+                borderBottomColor: '#000'
+              },
+              '& .MuiInput-underline:hover:before': {
+                borderBottomColor: '#000'
+              },
+              '& .MuiInput-underline:after': {
+                borderBottomColor: '#000'
+              },
+              '& .MuiFormHelperText-root': {
+                fontFamily: "'M PLUS Rounded 1c', sans-serif",
+                color: '#000'
+              }
+            }}
+          />
+
+          <TextField
+            variant="standard"
+            label="סיסמה"
+            type="password"
+            {...register("password")}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+            fullWidth
+            className="login-textfield"
+            InputLabelProps={{
+              shrink: true,
+              sx: {
+                right: 0,
+                left: 'auto',
+                transformOrigin: 'top right',
+                color: '#000 !important',
+                fontFamily: "'M PLUS Rounded 1c', sans-serif",
+                '&.Mui-focused': {
+                  color: '#000 !important'
+                }
+              }
+            }}
+            sx={{
+              '& .MuiInputBase-input': {
+                color: '#000',
+                fontFamily: "'M PLUS Rounded 1c', sans-serif"
+              },
+              '& .MuiInput-underline:before': {
+                borderBottomColor: '#000'
+              },
+              '& .MuiInput-underline:hover:before': {
+                borderBottomColor: '#000'
+              },
+              '& .MuiInput-underline:after': {
+                borderBottomColor: '#000'
+              },
+              '& .MuiFormHelperText-root': {
+                fontFamily: "'M PLUS Rounded 1c', sans-serif",
+                color: '#000'
+              }
+            }}
+          />
+
+          <Box className="forgot-password-container">
+            <Button
+              type="button"
+              onClick={handleForgotPassword}
+              disabled={isForgotLoading}
+              className="forgot-password-link"
+              sx={{
+                color: '#000 !important',
+                fontFamily: "'M PLUS Rounded 1c', sans-serif",
+                fontWeight: 'bold',
+                '&:hover': {
+                  color: '#000 !important',
+                  textDecoration: 'underline'
+                },
+                '&:disabled': {
+                  color: '#666 !important'
+                }
+              }}
+            >
+              {isForgotLoading ? "שולח..." : "שכחתי סיסמה"}
+            </Button>
+          </Box>
+
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            disabled={isLoading}
+            className="login-button"
+          >
+            {isLoading ? <CircularProgress size={24} color="inherit" /> : "התחבר"}
+          </Button>
+
+          <Divider sx={{ my: 3, color: 'rgba(255, 255, 255, 0.7)' }}>או</Divider>
+
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+              text="signin_with"
+              shape="rectangular"
+              theme="outline"
+              size="large"
+              locale="he"
+            />
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
+export default Login;

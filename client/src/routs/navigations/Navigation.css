@@ -1,0 +1,303 @@
+/* תפריט צד - עיצוב כללי */
+.sidebar-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+/* הקונטיינר זז כשהתפריט סגור - רק בדסקטופ */
+@media (min-width: 769px) {
+    .sidebar-container:has(.sidebar.closed) {
+        transform: translateX(280px);
+    }
+}
+
+.sidebar {
+    width: 280px;
+    height: 100%;
+    background: #b7cbef;
+    box-shadow: -2px 0 10px rgba(214, 135, 185, 0.08);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* כפתור פתיחה/סגירה */
+.toggle-btn {
+    position: absolute;
+    left: -45px;
+    top: 20px;
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #d687b9 0%, #b5e2ec 100%); /* ורוד בהיר לתכלת בהיר */
+    border: none;
+    border-radius: 8px 0 0 8px;
+    color: #9e63a9;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: -2px 2px 8px rgba(214, 135, 185, 0.12);
+    z-index: 1001;
+}
+
+.toggle-btn:hover {
+    background: linear-gradient(135deg, #b5e2ec 0%, #d687b9 100%);
+    color: #9e63a9;
+    transform: scale(1.05);
+}
+
+/* כותרת התפריט */
+.sidebar-header {
+    padding: 25px 20px;
+    background: #b7cbef;
+    border-bottom: 1px solid #b5e2ec;
+}
+
+.sidebar-logo {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    margin: 0 auto 10px;
+    display: block;
+    object-fit: contain;
+}
+
+.sidebar-title {
+    color: black;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    font-family: 'Rubik', sans-serif;
+}
+
+/* מידע משתמש */
+.user-info {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    text-align: center;
+    font-family: 'Rubik', sans-serif;
+}
+
+.user-info-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.user-info-email {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+/* רשימת קישורים */
+.nav-list {
+    flex: 1;
+    padding: 15px 0;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 25px;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    font-size: 16px;
+    font-family: 'Rubik', sans-serif;
+    flex-direction: row-reverse;
+}
+
+.nav-item::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: white;
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    padding-right: 30px;
+}
+
+.nav-item:hover::before {
+    transform: scaleY(1);
+}
+
+.nav-item.active {
+    background: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+}
+
+.nav-item.active::before {
+    transform: scaleY(1);
+}
+
+.nav-icon {
+    font-size: 20px;
+    width: 25px;
+    text-align: center;
+}
+
+.nav-text {
+    flex: 1;
+    text-align: right;
+}
+
+/* מחיצה */
+.nav-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 10px 20px;
+}
+
+/* כפתור התנתקות */
+.logout-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 25px;
+    color:black;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    width: 100%;
+    text-align: right;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: auto;
+    font-family: 'Rubik', sans-serif;
+    flex-direction: row-reverse;
+}
+
+.logout-item:hover {
+    background: rgba(255, 0, 0, 0.3);
+}
+
+/* התאמה למסך קטן */
+@media (max-width: 768px) {
+    /* במובייל - התוכן לא זז */
+    .main-content {
+        margin-right: 0 !important;
+    }
+    
+    /* במובייל - התפריט overlay מעל התוכן עם z-index נמוך */
+    .sidebar-container {
+        z-index: 100 !important;
+        transform: none !important; /* מבטל transform במובייל */
+        pointer-events: none !important; /* ברירת מחדל - לא חוסם */
+    }
+    
+    /* כשהתפריט פתוח - מאפשר לחיצות רק על התפריט */
+    .sidebar-container.open {
+        pointer-events: auto !important;
+    }
+    
+    /* כשהתפריט סגור - בטוח שלא חוסם לחיצות */
+    .sidebar-container.closed {
+        pointer-events: none !important;
+    }
+    
+    .sidebar {
+        width: 250px;
+        box-shadow: -4px 0 15px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease;
+        pointer-events: auto !important; /* התפריט עצמו תמיד לחיץ */
+    }
+    
+    /* כשהתפריט סגור - רק ה-sidebar זז */
+    .sidebar.closed {
+        transform: translateX(250px);
+    }
+    
+    /* הכפתור זז עם התפריט */
+    .toggle-btn {
+        left: -40px;
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+        transition: transform 0.3s ease;
+        pointer-events: auto !important; /* הכפתור תמיד לחיץ */
+        z-index: 101 !important; /* מעל הכל */
+    }
+    
+    .toggle-btn.closed {
+        transform: translateX(250px);
+    }
+    
+    /* רקע חשוך כשהתפריט פתוח - עם אפשרות לחיצה */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 99;
+        cursor: pointer;
+        pointer-events: none; /* ברירת מחדל - לא חוסם לחיצות */
+    }
+    
+    .sidebar-overlay.visible {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto; /* רק כשהתפריט פתוח - מאפשר לחיצות */
+    }
+    
+    .nav-item {
+        padding: 12px 20px;
+        font-size: 15px;
+    }
+}
+
+/* גלילה חלקה */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* אנימציה בטעינה */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.sidebar {
+    animation: slideIn 0.4s ease-out;
+}
