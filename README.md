@@ -163,4 +163,7 @@ Created for "Yad Lameyuchad" Center - All rights reserved © 2025
 
 ---
 
-**Built with 💙 for the children and families of Yad Lameyuchad**
+**Built with love for the children and families of Yad Lameyuchad**
+
+---
+**SHO**
