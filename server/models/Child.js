@@ -88,7 +88,6 @@ phone2:{
 email:{
     type:String,
     required:true,
-    unique:true,
     match:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+$/
 },
 definition:{
