@@ -27,13 +27,17 @@ app.use("/api/volunteer", require("./routs/VolunteerRouts"))
 app.use("/api/update", require("./routs/UpdateRouts"))
 
 // Serve React App in production
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/build')))
-    
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../client/build/index.html'))
-    })
-}
+const clientBuildPath = path.join(__dirname, '../client/build')
+console.log('Looking for client build at:', clientBuildPath)
+
+app.use(express.static(clientBuildPath))
+
+// Catch all other routes and return index.html
+app.get('*', (req, res) => {
+    const indexPath = path.join(clientBuildPath, 'index.html')
+    console.log('Serving index.html from:', indexPath)
+    res.sendFile(indexPath)
+})
 
 mongoose.connection.once('open',()=>{
     console.log('connected to mongoDB')
