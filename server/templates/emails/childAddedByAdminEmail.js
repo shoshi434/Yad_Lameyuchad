@@ -47,6 +47,13 @@ const childAddedByAdminEmailTemplate = (firstName, lastName, email, password) =>
         </div>
       </div>
       
+      <div style="text-align: center; margin: 30px 0;">
+        <a href="https://yad-lameyuchad.onrender.com/login" 
+           style="display: inline-block; background: linear-gradient(135deg, #d687b9 0%, #9e63a9 100%); color: white; text-decoration: none; padding: 15px 40px; border-radius: 25px; font-size: 18px; font-weight: bold; box-shadow: 0 4px 6px rgba(158, 99, 169, 0.3); transition: transform 0.2s;">
+          🔐 כניסה לאתר
+        </a>
+      </div>
+      
       <div style="background-color: #fff5f8; border-right: 4px solid #87c8d2; padding: 15px; border-radius: 5px; margin: 20px 0;">
         <p style="color: #666; font-size: 14px; margin: 0; line-height: 1.6;">
           ⚠️ <strong>חשוב לשמור על הסיסמה במקום בטוח</strong><br/>
