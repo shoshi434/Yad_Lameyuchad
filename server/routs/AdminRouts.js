@@ -3,13 +3,14 @@ const router=express.Router()
 const adminController=require("../controllers/AdminController")
 const verifyJWT=require("../middleware/verifyJWT")
 const verifyAdmin=require("../middleware/verifyAdmin")
+const verifySuperAdmin=require("../middleware/verifySuperAdmin")
 
 router.use(verifyJWT)
 router.use(verifyAdmin)
 
-router.post("/",adminController.createAdmin)
 router.get("/",adminController.getAdmins)
-router.put("/:id",adminController.updateAdmin)
-router.delete("/:id",adminController.deleteAdmin)
+router.post("/",verifySuperAdmin,adminController.createAdmin)
+router.put("/:id",verifySuperAdmin,adminController.updateAdmin)
+router.delete("/:id",verifySuperAdmin,adminController.deleteAdmin)
 
 module.exports=router

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Box,
   Typography,
@@ -36,7 +36,11 @@ import {
   useDeleteAdminMutation,
 } from "../../../api/adminApi";
 import { parseServerError } from "../../../utils/errorHandler";
+import { useSelector } from "react-redux";
+import { jwtDecode } from "jwt-decode";
 import "./styles/AdminManagement.css";
+
+const SUPER_ADMIN_EMAIL = 'yadlameyuchad.site@gmail.com';
 
 // Zod schema for admin creation
 const adminCreateSchema = z.object({
@@ -102,6 +106,17 @@ const AdminManagement = () => {
   const [selectedAdmin, setSelectedAdmin] = useState(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  // Check if current user is super admin
+  const token = useSelector((state) => state.auth.token);
+  const currentUserEmail = useMemo(() => {
+    try {
+      return token ? jwtDecode(token)?.email : null;
+    } catch (err) {
+      return null;
+    }
+  }, [token]);
+  const isSuperAdmin = currentUserEmail === SUPER_ADMIN_EMAIL;
 
   const currentSchema = selectedAdmin ? adminUpdateSchema : adminCreateSchema;
   
@@ -220,12 +235,14 @@ const AdminManagement = () => {
           <Typography variant="h5" className="admin-management-title">
             ניהול מנהלי האתר
           </Typography>
-          <IconButton
-            onClick={() => handleOpenDialog()}
-            className="add-admin-button"
-          >
-            <AddIcon />
-          </IconButton>
+          {isSuperAdmin && (
+            <IconButton
+              onClick={() => handleOpenDialog()}
+              className="add-admin-button"
+            >
+              <AddIcon />
+            </IconButton>
+          )}
         </Box>
       </Box>
 
@@ -278,24 +295,32 @@ const AdminManagement = () => {
                     <TableCell align="center">{admin.email}</TableCell>
                     <TableCell align="center">{formatDate(admin.createdAt)}</TableCell>
                     <TableCell align="center">
-                      <Tooltip title="ערוך מנהל">
-                        <IconButton
-                          onClick={() => handleOpenDialog(admin)}
-                          size="small"
-                          className="edit-icon-button"
-                        >
-                          <EditIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="מחק מנהל">
-                        <IconButton
-                          onClick={() => handleOpenDeleteDialog(admin)}
-                          size="small"
-                          className="delete-icon-button"
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
+                      {isSuperAdmin ? (
+                        <>
+                          <Tooltip title="ערוך מנהל">
+                            <IconButton
+                              onClick={() => handleOpenDialog(admin)}
+                              size="small"
+                              className="edit-icon-button"
+                            >
+                              <EditIcon />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="מחק מנהל">
+                            <IconButton
+                              onClick={() => handleOpenDeleteDialog(admin)}
+                              size="small"
+                              className="delete-icon-button"
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </Tooltip>
+                        </>
+                      ) : (
+                        <Typography variant="body2" color="textSecondary">
+                          -
+                        </Typography>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))
