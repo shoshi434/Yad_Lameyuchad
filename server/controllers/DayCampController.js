@@ -53,7 +53,10 @@ const updateDayCamp = async (req, res) => {
     if (req.body.name) dayCamp.name = req.body.name;
     if (req.body.startDate) dayCamp.startDate = req.body.startDate;
     if (req.body.endDate) dayCamp.endDate = req.body.endDate;
+    if (req.body.startTime !== undefined) dayCamp.startTime = req.body.startTime;
+    if (req.body.endTime !== undefined) dayCamp.endTime = req.body.endTime;
     if (req.body.location) dayCamp.location = req.body.location;
+    if (req.body.additionalDetails !== undefined) dayCamp.additionalDetails = req.body.additionalDetails;
     if (req.body.registerStatus !== undefined) dayCamp.registerStatus = req.body.registerStatus;
 
     // Handle file removal

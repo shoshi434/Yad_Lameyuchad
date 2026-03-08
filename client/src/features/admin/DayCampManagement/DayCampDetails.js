@@ -485,6 +485,24 @@ const DayCampDetails = () => {
               size="small"
             />
           </Grid>
+          {dayCamp.startTime && (
+            <Grid item>
+              <Chip 
+                label={`שעת התחלה: ${dayCamp.startTime}`}
+                className="daycamp-details-info-chip"
+                size="small"
+              />
+            </Grid>
+          )}
+          {dayCamp.endTime && (
+            <Grid item>
+              <Chip 
+                label={`שעת סיום: ${dayCamp.endTime}`}
+                className="daycamp-details-info-chip"
+                size="small"
+              />
+            </Grid>
+          )}
           <Grid item>
             <Chip 
               label={

@@ -23,6 +23,8 @@ import {
   Group as GroupIcon,
   AttachFile as AttachFileIcon,
   Close as CloseIcon,
+  AccessTime as TimeIcon,
+  Info as InfoIcon,
 } from "@mui/icons-material";
 import { 
   useGetDayCampsQuery, 
@@ -187,6 +189,26 @@ const UserCampsList = () => {
                       <LocationIcon className="camp-detail-icon" />
                       <Typography className="camp-detail-text">{camp.location}</Typography>
                     </div>
+                    
+                    {(camp.startTime || camp.endTime) && (
+                      <div className="camp-detail-row">
+                        <TimeIcon className="camp-detail-icon" />
+                        <Typography className="camp-detail-text">
+                          {camp.startTime && camp.endTime 
+                            ? `${camp.startTime} - ${camp.endTime}`
+                            : camp.startTime || camp.endTime}
+                        </Typography>
+                      </div>
+                    )}
+                    
+                    {camp.additionalDetails && (
+                      <div className="camp-detail-row">
+                        <InfoIcon className="camp-detail-icon" />
+                        <Typography className="camp-detail-text camp-additional-details">
+                          {camp.additionalDetails}
+                        </Typography>
+                      </div>
+                    )}
                   </div>
 
                   <Divider className="camp-divider" />

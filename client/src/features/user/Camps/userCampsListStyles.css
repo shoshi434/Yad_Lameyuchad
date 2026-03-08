@@ -121,6 +121,14 @@
   font-size: 0.95rem !important;
 }
 
+/* פרטים נוספים - יישור לימין */
+.camp-additional-details {
+  text-align: right !important;
+  white-space: pre-wrap !important;
+  line-height: 1.5 !important;
+  max-width: 100% !important;
+}
+
 /* קו מפריד */
 .camp-divider {
   margin: 20px 0 !important;

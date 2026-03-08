@@ -63,7 +63,10 @@ const DayCampManagement = () => {
     name: "",
     startDate: "",
     endDate: "",
+    startTime: "",
+    endTime: "",
     location: "",
+    additionalDetails: "",
     registerStatus: true,
   });
 
@@ -84,7 +87,10 @@ const DayCampManagement = () => {
         name: dayCamp.name || "",
         startDate: dayCamp.startDate ? dayCamp.startDate.split("T")[0] : "",
         endDate: dayCamp.endDate ? dayCamp.endDate.split("T")[0] : "",
+        startTime: dayCamp.startTime || "",
+        endTime: dayCamp.endTime || "",
         location: dayCamp.location || "",
+        additionalDetails: dayCamp.additionalDetails || "",
         registerStatus: dayCamp.registerStatus ?? true,
       });
     } else {
@@ -92,7 +98,10 @@ const DayCampManagement = () => {
         name: "",
         startDate: "",
         endDate: "",
+        startTime: "",
+        endTime: "",
         location: "",
+        additionalDetails: "",
         registerStatus: true,
       });
     }
@@ -111,7 +120,10 @@ const DayCampManagement = () => {
       name: "",
       startDate: "",
       endDate: "",
+      startTime: "",
+      endTime: "",
       location: "",
+      additionalDetails: "",
       registerStatus: true,
     });
   };
@@ -151,7 +163,10 @@ const DayCampManagement = () => {
     dataToSend.append("name", formData.name);
     dataToSend.append("startDate", formData.startDate);
     dataToSend.append("endDate", formData.endDate);
+    if (formData.startTime) dataToSend.append("startTime", formData.startTime);
+    if (formData.endTime) dataToSend.append("endTime", formData.endTime);
     dataToSend.append("location", formData.location);
+    if (formData.additionalDetails) dataToSend.append("additionalDetails", formData.additionalDetails);
     dataToSend.append("registerStatus", formData.registerStatus);
     
     if (selectedFile) {
@@ -422,6 +437,28 @@ const DayCampManagement = () => {
           />
 
           <TextField
+            label="שעת התחלה"
+            name="startTime"
+            type="time"
+            value={formData.startTime}
+            onChange={handleChange}
+            fullWidth
+            sx={{ mb: 2 }}
+            InputLabelProps={{ shrink: true }}
+          />
+
+          <TextField
+            label="שעת סיום"
+            name="endTime"
+            type="time"
+            value={formData.endTime}
+            onChange={handleChange}
+            fullWidth
+            sx={{ mb: 2 }}
+            InputLabelProps={{ shrink: true }}
+          />
+
+          <TextField
             label="מיקום"
             name="location"
             value={formData.location}
@@ -429,6 +466,18 @@ const DayCampManagement = () => {
             fullWidth
             sx={{ mb: 2 }}
             required
+          />
+
+          <TextField
+            label="פרטים נוספים"
+            name="additionalDetails"
+            value={formData.additionalDetails}
+            onChange={handleChange}
+            fullWidth
+            multiline
+            rows={3}
+            sx={{ mb: 2 }}
+            placeholder="פרטים נוספים על הקייטנה..."
           />
 
           <FormControlLabel

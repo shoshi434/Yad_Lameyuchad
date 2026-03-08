@@ -12,6 +12,18 @@ endDate:{
 type:Date,
 required:true
 },
+startTime:{
+type:String,
+trim:true
+},
+endTime:{
+type:String,
+trim:true
+},
+additionalDetails:{
+type:String,
+trim:true
+},
 location:{
     type: String,
     required: true,
