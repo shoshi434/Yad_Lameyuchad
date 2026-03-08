@@ -1,24 +1,59 @@
 const nodemailer = require("nodemailer");
 
-const transporter = nodemailer.createTransport({
-  service: "gmail", 
-  auth: {
-    user: process.env.EMAIL_USER, 
-    pass: process.env.EMAIL_PASS 
-  }
-});
+// Use SendGrid in production, Gmail in development
+const useSendGrid = process.env.NODE_ENV === 'production' && process.env.SENDGRID_API_KEY;
 
+let transporter;
+let sgMail;
 
-const sendMail = async (to, subject, text, attachments ) => {
+if (useSendGrid) {
+  // SendGrid for production
+  sgMail = require('@sendgrid/mail');
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+} else {
+  // Gmail for development
+  transporter = nodemailer.createTransport({
+    service: "gmail", 
+    auth: {
+      user: process.env.EMAIL_USER, 
+      pass: process.env.EMAIL_PASS 
+    }
+  });
+}
+
+const sendMail = async (to, subject, text, attachments) => {
   try {
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to,
-      subject,
-      html: text, // שימוש ב-html במקום text כדי לתמוך ב-HTML
-      attachments
-    });
+    if (useSendGrid) {
+      // SendGrid
+      const msg = {
+        to,
+        from: process.env.EMAIL_USER || 'yadlameyuchad.site@gmail.com',
+        subject,
+        html: text,
+      };
+      
+      if (attachments && attachments.length > 0) {
+        msg.attachments = attachments.map(att => ({
+          content: att.content.toString('base64'),
+          filename: att.filename,
+          type: att.contentType,
+          disposition: 'attachment'
+        }));
+      }
+      
+      await sgMail.send(msg);
+    } else {
+      // Gmail (development)
+      await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to,
+        subject,
+        html: text,
+        attachments
+      });
+    }
   } catch (err) {
+    console.error('Email error:', err);
     throw err; 
   }
 };
