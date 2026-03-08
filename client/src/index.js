@@ -6,13 +6,15 @@ import store from './app/Store';
 import App from './App';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-        console.log('Google Client ID:', process.env.REACT_APP_GOOGLE_CLIENT_ID);
+const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || '656773053150-141bhsg4jkled2837b45vheag64hlep6.apps.googleusercontent.com';
+
+console.log('Google Client ID:', GOOGLE_CLIENT_ID);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
         <App />
       </GoogleOAuthProvider>
     </Provider>
