@@ -62,10 +62,11 @@ const VolunteerSchema = new mongoose.Schema({
         trim:true
     },
     building: {
-      type: Number,
+      type: String,
       required: true,
-    min: 1,
-    max: 500
+      maxLength:10,
+      match:/^[0-9\/]+$/,
+      trim:true
     },
   },
   email: {

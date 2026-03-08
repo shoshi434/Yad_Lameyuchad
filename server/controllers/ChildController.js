@@ -9,13 +9,6 @@ const createChild = async (req, res) => {
 
     const password = generatePassword();
     const hashedPassword = await bcrypt.hash(password, 10);
-    // בדיקה אם המייל כבר קיים
-    const existingEmail = await Child.findOne({ email: child.email });
-    if (existingEmail) {
-      return res.status(400).json({
-        message: "Email already exists. Please use a different email address."
-      });
-    }
 
     // בדיקה אם מספר הזהות כבר קיים
     const existingChildId = await Child.findOne({ childId: child.childId });

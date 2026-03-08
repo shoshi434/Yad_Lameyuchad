@@ -39,8 +39,26 @@ app.get('*', (req, res) => {
     res.sendFile(indexPath)
 })
 
-mongoose.connection.once('open',()=>{
+mongoose.connection.once('open', async ()=>{
     console.log('connected to mongoDB')
+    
+    // מחיקת unique index של email מ-Child collection אם קיים
+    try {
+        const Child = mongoose.model('Child');
+        const indexes = await Child.collection.indexes();
+        const emailIndexExists = indexes.some(index => index.key && index.key.email && index.unique);
+        
+        if (emailIndexExists) {
+            await Child.collection.dropIndex('email_1');
+            console.log('✅ Dropped unique index on email field from Child collection');
+        }
+    } catch (error) {
+        // אם ה-index לא קיים, זה בסדר
+        if (error.code !== 27) { // 27 = IndexNotFound
+            console.log('Note: Could not drop email index (might not exist):', error.message);
+        }
+    }
+    
     app.listen(PORT,()=>{console.log(`server running on port ${PORT}`)})
 })
 mongoose.connection.on('error',err=>{

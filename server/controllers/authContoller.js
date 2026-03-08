@@ -19,25 +19,12 @@ const registerChild = async (req, res) => {
   try {
     const { email, childId, ...rest } = req.body;
     
-    // בדיקה אם המייל כבר קיים
-    const existingEmail = await Child.findOne({ email });
-    if (existingEmail && existingEmail.isVerified) {
-      return res.status(400).json({ 
-        message: "Email already exists. Please use a different email address." 
-      });
-    }
-    
     // בדיקה אם מספר הזהות כבר קיים
     const existingChildId = await Child.findOne({ childId });
     if (existingChildId && existingChildId.isVerified) {
       return res.status(400).json({ 
         message: "childId already exists. This ID is already registered in the system." 
       });
-    }
-    
-    // אם המייל קיים אבל לא מאומת - נמחק אותו
-    if (existingEmail && !existingEmail.isVerified) {
-      await Child.findByIdAndDelete(existingEmail._id);
     }
     
     // אם הת"ז קיימת אבל לא מאומתת - נמחק אותה
@@ -76,11 +63,7 @@ const registerChild = async (req, res) => {
     // טיפול בשגיאות duplicate מ-MongoDB
     if (err.code === 11000) {
       const field = Object.keys(err.keyPattern)[0];
-      if (field === 'email') {
-        return res.status(400).json({ 
-          message: "Email already exists. Please use a different email address." 
-        });
-      } else if (field === 'childId') {
+      if (field === 'childId') {
         return res.status(400).json({ 
           message: "childId already exists. This ID is already registered in the system." 
         });

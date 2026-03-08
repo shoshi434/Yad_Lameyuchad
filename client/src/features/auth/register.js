@@ -41,7 +41,7 @@ const registerSchema = z.object({
   street: z.string().nonempty("יש להזין רחוב"),
   building: z.string()
     .nonempty("יש להזין מספר בית")
-    .regex(/^[0-9]+$/, "מספר בית חייב להיות מספר"),
+    .regex(/^[0-9\/]+$/, "מספר בית חייב להכיל ספרות ולחילופין תו /"),
 
   educationInstitution: z.string()
     .nonempty("יש להזין שם מוסד לימודי")

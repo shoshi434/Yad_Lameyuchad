@@ -57,10 +57,11 @@ address:{
         
     },
     building:{
-        type:Number,
+        type:String,
         required:true,
-        min:0,
-        max:500
+        maxLength:10,
+        match:/^[0-9\/]+$/,
+        trim:true
     },
 
 },

@@ -72,7 +72,7 @@ const EditVolunteerDialog = ({ open, onClose, volunteer, onSuccess }) => {
 			address: {
 				city: data.city,
 				street: data.street,
-				building: Number(data.building),
+				building: data.building,
 			},
 		};
 

@@ -55,6 +55,5 @@ export const volunteerSchema = z.object({
 	building: z
 		.string()
 		.nonempty("יש להזין מספר בית")
-		.regex(/^[0-9]+$/, "מספר בית חייב להיות מספר")
-		.refine((val) => parseInt(val) >= 1 && parseInt(val) <= 300, "מספר בית חייב להיות בין 1 ל-300"),
+		.regex(/^[0-9\/]+$/, "מספר בית חייב להכיל ספרות ולחילופין תו /"),
 });

@@ -73,11 +73,7 @@ const profileSchema = z.object({
   street: z.string().min(2, "שם הרחוב חייב להכיל לפחות 2 תווים"),
   building: z.string()
     .min(1, "מספר בית הוא שדה חובה")
-    .regex(/^[0-9]+$/, "מספר בית חייב להכיל רק ספרות")
-    .refine((val) => {
-      const num = parseInt(val, 10);
-      return num >= 1 && num <= 500;
-    }, "מספר בית חייב להיות בין 1 ל-500"),
+    .regex(/^[0-9\/]+$/, "מספר בית חייב להכיל ספרות ולחילופין תו /"),
   educationInstitution: z.string().optional(),
   specialNeeds: z.string().optional(),
   allergies: z.string().optional(),
