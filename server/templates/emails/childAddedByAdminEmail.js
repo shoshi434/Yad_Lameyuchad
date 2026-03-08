@@ -2,6 +2,10 @@ const childAddedByAdminEmailTemplate = (firstName, lastName, email, password) =>
   <div dir="rtl" style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: linear-gradient(135deg, #b5e2ec 0%, #d687b9 100%); padding: 40px 20px; border-radius: 15px;">
     <div style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
       <div style="text-align: center; margin-bottom: 30px;">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 20px;">
+          <img src="https://yad-lameyuchad.onrender.com/images/home/LL.png" alt="LL Logo" style="height: 80px; width: auto;" />
+          <img src="https://yad-lameyuchad.onrender.com/images/home/LO.png" alt="LO Logo" style="height: 80px; width: auto;" />
+        </div>
         <h1 style="color: #9e63a9; margin: 0; font-size: 28px;">ברוכים הבאים ליד למיוחד!</h1>
         <p style="color: #87c8d2; font-size: 16px; margin-top: 10px;">נוספת לאתר על ידי המנהל</p>
       </div>
@@ -50,7 +54,7 @@ const childAddedByAdminEmailTemplate = (firstName, lastName, email, password) =>
       <div style="text-align: center; margin: 30px 0;">
         <a href="https://yad-lameyuchad.onrender.com/login" 
            style="display: inline-block; background: linear-gradient(135deg, #d687b9 0%, #9e63a9 100%); color: white; text-decoration: none; padding: 15px 40px; border-radius: 25px; font-size: 18px; font-weight: bold; box-shadow: 0 4px 6px rgba(158, 99, 169, 0.3); transition: transform 0.2s;">
-          🔐 כניסה לאתר
+          לחץ כאן למעבר לאתר
         </a>
       </div>
       
