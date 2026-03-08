@@ -7,9 +7,21 @@ let transporter;
 let sgMail;
 
 if (useSendGrid) {
-  // SendGrid for production
-  sgMail = require('@sendgrid/mail');
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  try {
+    // SendGrid for production
+    sgMail = require('@sendgrid/mail');
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    console.log('Using SendGrid for emails');
+  } catch (error) {
+    console.error('SendGrid not available, falling back to Gmail:', error.message);
+    transporter = nodemailer.createTransport({
+      service: "gmail", 
+      auth: {
+        user: process.env.EMAIL_USER, 
+        pass: process.env.EMAIL_PASS 
+      }
+    });
+  }
 } else {
   // Gmail for development
   transporter = nodemailer.createTransport({
@@ -23,7 +35,7 @@ if (useSendGrid) {
 
 const sendMail = async (to, subject, text, attachments) => {
   try {
-    if (useSendGrid) {
+    if (useSendGrid && sgMail) {
       // SendGrid
       const msg = {
         to,
@@ -43,7 +55,7 @@ const sendMail = async (to, subject, text, attachments) => {
       
       await sgMail.send(msg);
     } else {
-      // Gmail (development)
+      // Gmail (development or fallback)
       await transporter.sendMail({
         from: process.env.EMAIL_USER,
         to,
@@ -54,7 +66,12 @@ const sendMail = async (to, subject, text, attachments) => {
     }
   } catch (err) {
     console.error('Email error:', err);
-    throw err; 
+    // Don't throw - just log the error so the server doesn't crash
+    if (process.env.NODE_ENV === 'production') {
+      console.log('Email failed but continuing...');
+    } else {
+      throw err;
+    }
   }
 };
 
